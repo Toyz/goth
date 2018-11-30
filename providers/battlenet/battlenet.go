@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"net/http/httputil"
 
 	"fmt"
 
@@ -87,7 +86,8 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	// Get the userID, battlenet needs userID in order to get user profile info
 	c := p.Client()
 	req, _ := http.NewRequest("GET", endpointUser, nil)
-	req.Header.Set("Authorization", "Bearer "+sess.AccessToken)
+	req.Header.Add("Authorization", "Bearer "+sess.AccessToken)
+
 	response, err := c.Do(req)
 	if err != nil {
 		if response != nil {
@@ -95,9 +95,6 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 		}
 		return user, err
 	}
-
-	dump, _ := httputil.DumpRequest(req, true)
-	fmt.Println(string(dump))
 
 	if response.StatusCode != http.StatusOK {
 		return user, fmt.Errorf("%s responded with a %d trying to fetch user information", p.providerName, response.StatusCode)
@@ -107,6 +104,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	if err != nil {
 		return user, err
 	}
+	fmt.Println(string(bits))
 
 	u := struct {
 		ID        int64  `json:"id"`
