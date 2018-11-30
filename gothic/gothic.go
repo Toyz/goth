@@ -26,7 +26,7 @@ import (
 )
 
 // SessionName is the key used to access the session store.
-const SessionName = "_gothic_session"
+var SessionName = "_gothic_session"
 
 // Store can/should be set by applications using gothic. The default is a cookie store.
 var Store sessions.Store
