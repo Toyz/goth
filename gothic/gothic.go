@@ -21,7 +21,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 )
@@ -265,11 +264,6 @@ func getProviderName(req *http.Request) (string, error) {
 
 	// try to get it from the url param ":provider"
 	if p := req.URL.Query().Get(":provider"); p != "" {
-		return p, nil
-	}
-
-	// try to get it from the context's value of "provider" key
-	if p, ok := mux.Vars(req)["provider"]; ok {
 		return p, nil
 	}
 
