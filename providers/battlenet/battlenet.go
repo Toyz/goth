@@ -104,7 +104,6 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	if err != nil {
 		return user, err
 	}
-	fmt.Println(string(bits))
 
 	u := struct {
 		ID        int64  `json:"id"`
